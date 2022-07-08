@@ -3,6 +3,7 @@ import path from "path";
 import multer from "multer";
 import adminRouter from "./routers/admin.router";
 import authRouter from "./routers/auth.router";
+import apiRouter from "./routers/api.router";
 import {ConnectDB} from "./models/ConnectDB";
 import bodyParser from "body-parser";
 import session from "express-session";
@@ -39,6 +40,8 @@ app.use(passport.initialize());
 app.use(passport.authenticate('session'));
 
 // router
+app.use('/api', apiRouter)
+
 app.use('/auth', authRouter)
 
 app.use('/admin', AuthCheck.checkLogin,  adminRouter)
