@@ -9,7 +9,7 @@ import session from "express-session";
 import passport from "passport";
 import * as AuthCheck from "./middleware/auth.check";
 
-const db = new ConnectDB();
+const db: ConnectDB = new ConnectDB();
 db.connect().catch(err => {
     // tslint:disable-next-line:no-console
     console.log( `connect database error` );
@@ -18,7 +18,7 @@ db.connect().catch(err => {
 const upload = multer({ dest: __dirname + '/public/uploads/' })
 
 const app = express();
-const port = 8081; // default port to listen
+const port: number = 8081; // default port to listen
 
 // set views
 app.set( "views", path.join( __dirname, "views" ) );
@@ -35,16 +35,35 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }))
+
 app.use(passport.initialize());
 app.use(passport.authenticate('session'));
 
+// lay thong tin dang nhap user
+app.use(function(req,res,next){
+    res.locals.currentUser = req.user;
+    next();
+})
 // router
 app.use('/auth', authRouter)
 
-app.use('/admin', AuthCheck.checkLogin,  adminRouter)
+app.use('/admin', AuthCheck.checkLogin, adminRouter)
+
+app.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
+
+app.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/auth/login' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/admin/books');
+    });
+
+app.get('/*', ((req, res) => {
+    res.send('404')
+}))
 
 // start the Express server
 app.listen( port, () => {
     // tslint:disable-next-line:no-console
     console.log( `server started at http://localhost:${ port }` );
-} );
+});

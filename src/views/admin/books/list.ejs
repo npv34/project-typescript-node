@@ -14,9 +14,12 @@
 <div class="container">
     <%- include('../layouts/navbar') %>
     <div class="card mt-2">
+
+        <% if (locals.currentUser.role === 'admin'){ %>
         <div class="card-header">
             Quản lý sách <a href="/admin/books/create" class="btn btn-success">Thêm mới</a>
         </div>
+        <% } %>
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-md-10"></div>
