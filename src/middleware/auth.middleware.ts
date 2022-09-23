@@ -37,7 +37,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 passport.use(new GoogleStrategy({
         clientID: '37363328185-4ggo0p41q1affr9gv2bstv21v61af4io.apps.googleusercontent.com',
         clientSecret: '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',
-        callbackURL: "http://localhost:8081/google/callback"
+        callbackURL: "https://demo-codegym.herokuapp.com/google/callback"
     },
     async function(accessToken: any, refreshToken: any, profile: any, cb: any) {
         console.log(profile)
