@@ -2,6 +2,6 @@ import mongoose from "mongoose";
 
 export class ConnectDB {
     async connect() {
-        await mongoose.connect('mongodb://localhost:27017/demo');
+        await mongoose.connect('mongodb+srv://admin:FAX2PJ67_peGZFg@cluster0.oedlp.mongodb.net/library');
     }
 }

@@ -10,9 +10,11 @@ import passport from "passport";
 import * as AuthCheck from "./middleware/auth.check";
 
 const db: ConnectDB = new ConnectDB();
-db.connect().catch(err => {
+db.connect().then(() => {
+    console.log('successfully')
+}).catch(err => {
     // tslint:disable-next-line:no-console
-    console.log( `connect database error` );
+    console.log(err.message);
 })
 
 const upload = multer({ dest: __dirname + '/public/uploads/' })
