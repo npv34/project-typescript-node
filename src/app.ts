@@ -18,7 +18,8 @@ db.connect().catch(err => {
 const upload = multer({ dest: __dirname + '/public/uploads/' })
 
 const app = express();
-const port: number = 8081; // default port to listen
+const port = process.env.PORT || 3000;
+// default port to listen
 
 // set views
 app.set( "views", path.join( __dirname, "views" ) );
