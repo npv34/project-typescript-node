@@ -14,7 +14,7 @@ export class LoginController {
                 status: 'error',
                 message: 'Account does not exist'
             }
-            res.json(data)
+            return res.json(data)
         } else {
             // Generate an access token
             const payload = {

@@ -9,7 +9,7 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import passport from "passport";
 import * as AuthCheck from "./middleware/auth.check";
-
+import cors from "cors"
 const db = new ConnectDB();
 db.connect().catch(err => {
     // tslint:disable-next-line:no-console
@@ -19,6 +19,8 @@ db.connect().catch(err => {
 const upload = multer({ dest: __dirname + '/public/uploads/' })
 
 const app = express();
+app.use(cors())
+
 const port = 8081; // default port to listen
 
 // set views
