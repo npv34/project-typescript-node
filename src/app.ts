@@ -11,9 +11,9 @@ import passport from "passport";
 import * as AuthCheck from "./middleware/auth.check";
 import cors from "cors"
 const db = new ConnectDB();
-db.connect().catch(err => {
+db.connect().catch((err) => {
     // tslint:disable-next-line:no-console
-    console.log( `connect database error` );
+    console.log(err.message)
 })
 
 const upload = multer({ dest: __dirname + '/public/uploads/' })
@@ -47,6 +47,11 @@ app.use('/api', apiRouter)
 app.use('/auth', authRouter)
 
 app.use('/admin', AuthCheck.checkLogin,  adminRouter)
+
+// xu ly tat ca request khong co router
+app.use((req, res) => {
+    res.status(404).send('Page Not Found')
+})
 
 // start the Express server
 app.listen( port, () => {
