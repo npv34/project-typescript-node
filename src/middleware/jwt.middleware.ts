@@ -20,8 +20,7 @@ function verifyJWT(req: any, res: any, next: any) {
                 message: "Token invalid",
             })
         }
-        // tslint:disable-next-line:no-console
-        console.log(decoded)
+        req.currenUserLogin = decoded;
         // neu token dung thi next
         next()
     });
