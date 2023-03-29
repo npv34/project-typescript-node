@@ -3,6 +3,8 @@ import JWTConfig from "../config/jwt.config";
 
 function verifyJWT(req: any, res: any, next: any) {
     const authHeader = req.headers.authorization;
+    // tslint:disable-next-line:no-console
+    console.log(authHeader)
     if (!authHeader) {
         res.json({
             status: "error",

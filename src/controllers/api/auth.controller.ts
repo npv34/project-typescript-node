@@ -1,7 +1,7 @@
 class AuthController {
     static me(req: any, res: any): any {
         return res.json({
-            message: 'success',
+            status: 'success',
             data: req.currenUserLogin
         })
     }
