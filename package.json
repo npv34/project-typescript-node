@@ -11,7 +11,7 @@
     "build": "npm-run-all clean tsc copy-assets",
     "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
-    "start": "node .",
+    "start": "node ./dist/app.js",
     "test": "jest --runInBand --detectOpenHandles ./dist/tests"
   },
   "author": "",
