@@ -8,8 +8,11 @@ import {ConnectDB} from "./models/ConnectDB";
 import bodyParser from "body-parser";
 import session from "express-session";
 import passport from "passport";
+import * as dotenv from 'dotenv';
 import * as AuthCheck from "./middleware/auth.check";
-import cors from "cors"
+import cors from "cors";
+import * as process from "process";
+dotenv.config();
 const db = new ConnectDB();
 db.connect().catch((err) => {
     // tslint:disable-next-line:no-console
@@ -21,7 +24,7 @@ const upload = multer({ dest: __dirname + '/public/uploads/' })
 const app = express();
 app.use(cors())
 
-const port = 8081; // default port to listen
+const port = process.env.PORT || 8081; // default port to listen
 
 // set views
 app.set( "views", path.join( __dirname, "views" ) );
