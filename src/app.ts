@@ -14,7 +14,10 @@ import cors from "cors";
 import * as process from "process";
 dotenv.config();
 const db = new ConnectDB();
-db.connect().catch((err) => {
+db.connect().then(() => {
+    // tslint:disable-next-line:no-console
+    console.log('connect db success')
+}).catch((err) => {
     // tslint:disable-next-line:no-console
     console.log(err.message)
 })
