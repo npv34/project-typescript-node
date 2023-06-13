@@ -10,8 +10,6 @@ export class Products {
     @Column()
     name?: string
 
-
-
     @ManyToOne(() => Categories, (category) => category.products)
     @JoinColumn([
         { name: "category_id", referencedColumnName: "id" },

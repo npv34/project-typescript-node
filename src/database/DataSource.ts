@@ -5,7 +5,7 @@ const AppDataSource = new DataSource({
     host: "127.0.0.1",
     port: 3306,
     username: "admin",
-    password: "123456@Abc",
+    password: process.env.DB_PASSWORD,
     database: "eshop-app",
     entities: [
         './dist/entities/*.js'

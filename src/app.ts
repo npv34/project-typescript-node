@@ -1,23 +1,22 @@
 import "reflect-metadata"
 import express from "express";
 import path from "path";
+import 'dotenv/config';
+import bodyParser from "body-parser";
 import AppDataSource from "./database/DataSource";
-import {Categories} from "./entities/Categories";
+import apiRouter from "./routers/api.router";
+
 const app = express();
-const port = 8080; // default port to listen
+const port: string|number = process.env.PORT_SERVER || 8000; // default port to listen
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.set( "views", path.join( __dirname, "views" ) );
 app.set( "view engine", "ejs" );
 
-AppDataSource.initialize().then( async () => {
-    const categoryRepo = AppDataSource.getRepository(Categories);
-
-    const category = await categoryRepo.find(
-        {
-                relations: {
-                    products: true,
-                }});
-    console.log(category[1].products)
+AppDataSource.initialize().then(async () => {
+    app.use('/api', apiRouter);
 })
 
 // define a route handler for the default home page
