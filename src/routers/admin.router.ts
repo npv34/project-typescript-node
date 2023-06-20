@@ -1,6 +1,7 @@
 import express from "express";
 import {BookController} from "../controllers/admin/book.controller";
 import {resolveObjectURL} from "buffer";
+import permissionMiddleware from "../middlewares/permission.middleware";
 
 const router = express.Router();
 
@@ -11,6 +12,14 @@ router.get('/books', (req, res) => {
     })
 })
 
+router.get('/logout', (req, res, next)=>{
+    req.logout((err) => {
+        if (err) { return next(err); }
+        res.redirect('/auth/login');
+    });
+});
+
+router.use(permissionMiddleware);
 router.get('/books/create', (req, res) => {
     BookController.showFormCreate(req, res).catch(err => {
         // tslint:disable-next-line:no-console

@@ -16,7 +16,10 @@
 
     <div class="card">
         <div class="card-header">
-            Quản lý sách <a href="/admin/books/create" class="btn btn-success">Thêm mới</a>
+            Quản lý sách
+            <% if (locals.userLogin.role == 'admin') {%>
+            <a href="/admin/books/create" class="btn btn-success">Thêm mới</a>
+            <% } %>
         </div>
         <div class="card-body">
             Co <%= data.length %> sach
@@ -41,10 +44,12 @@
                     <td><a href="/admin/books?category=<%= (book.category) ? book.category._id : null%>"><%= (book.category) ? book.category.name : 'Chua phan loai'%></a></td>
                     <td><%= book.price%></td>
                     <td><%= book.author%></td>
+                    <% if (locals.userLogin.role == 'admin') {%>
                     <td>
                         <button class="btn btn-danger" onclick="deleteBook('<%= book._id %>')">Xoá</button>
                         <a href="/admin/books/<%= book._id %>/edit" class="btn btn-primary">Edit</a>
                     </td>
+                    <% } %>
                 </tr>
                 <% })%>
                 </tbody>

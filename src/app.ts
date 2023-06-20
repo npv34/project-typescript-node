@@ -6,7 +6,8 @@ import {ConnectDB} from "./models/ConnectDB";
 import bodyParser from "body-parser";
 import session from "express-session";
 import authRouter from "./routers/auth.router";
-import passport from "./middlewares/auth.middleware";
+import livereload from "connect-livereload";
+import passport from "passport";
 
 const db = new ConnectDB();
 db.connect().then(r => {
@@ -33,13 +34,23 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
-}))
+    cookie: { secure: false }
+}));
+app.use(livereload());
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRouter);
-app.use('/admin', adminRouter)
+// viet middleware chinh sua res
+app.use((req: any, res: any, next: any)=> {
+    if (req.isAuthenticated()) {
+        res.locals.userLogin = req.user
+        next();
+    } else {
+        res.redirect('/auth/login')
+    }
+})
+app.use('/admin', adminRouter);
 
 // start the Express server
 app.listen( port, () => {

@@ -14,18 +14,14 @@ passport.use(new LocalStrategy(async function verify(username: string, password:
     return cb(null, user);
 }))
 
-// tslint:disable-next-line:only-arrow-functions
-passport.serializeUser(function(user: any, cb) {
-    // tslint:disable-next-line:only-arrow-functions
-    process.nextTick(function() {
-        cb(null, { id: user._id, username: user.username });
+passport.serializeUser((user: any, cb)  => {
+    process.nextTick(() => {
+        cb(null, { id: user._id, username: user.username, role: user.role });
     });
 });
 
-// tslint:disable-next-line:only-arrow-functions
-passport.deserializeUser(function(user: any, cb): any {
-    // tslint:disable-next-line:only-arrow-functions
-    process.nextTick(function(): any {
+passport.deserializeUser((user: any, cb) => {
+    process.nextTick(() => {
         return cb(null, user);
     });
 });

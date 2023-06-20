@@ -11,7 +11,7 @@ export class BookController {
 
     static async showFormCreate(req: any, res: any) {
         const categories = await Category.find();
-        res.render('admin/books/add', { categories})
+        res.render('admin/books/add', {categories})
     }
 
     static async create(req: any, res: any) {
@@ -30,12 +30,14 @@ export class BookController {
         await book.save();
         res.redirect('/admin/books')
     }
+
     static async showFormEdit(req: any, res: any) {
         const categories = await Category.find();
         const idBook = req.params.id;
         const book = await Book.findOne({_id: idBook}).populate('category');
-        res.render('admin/books/edit', { categories, book })
+        res.render('admin/books/edit', {categories, book})
     }
+
     static async update(req: any, res: any) {
         const idBook = req.params.id;
         const book = await Book.findOne({_id: idBook}).populate('category');
@@ -52,6 +54,7 @@ export class BookController {
             res.redirect('/admin/books')
         }
     }
+
     static async delete(req: any, res: any) {
         const idBook = req.params.id;
         const book = await Book.findOne({_id: idBook});
