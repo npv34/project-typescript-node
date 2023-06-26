@@ -21,5 +21,26 @@ router.post('/books/create', (req, res, next) => {
     })
 })
 
+router.get('/books/:id/edit', (req, res) => {
+    BookController.showFormEdit(req, res).catch(err => {
+        // tslint:disable-next-line:no-console
+        console.log(err.message);
+    })
+})
+
+router.post('/books/:id/update', (req, res) => {
+    BookController.update(req, res).catch(err => {
+        // tslint:disable-next-line:no-console
+        console.log(err.message);
+    })
+})
+
+router.get('/books/:id/delete', (req, res) => {
+    BookController.delete(req, res).catch(err => {
+        // tslint:disable-next-line:no-console
+        console.log(err.message);
+    })
+})
+
 
 export default router;

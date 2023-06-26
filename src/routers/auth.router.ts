@@ -1,16 +1,13 @@
 import express from "express";
-import {AuthController} from "../controllers/admin/auth.controller";
-import authMiddle from "../middleware/auth.middleware";
+import passport from "../middlewares/auth.middleware";
+import AuthController from "../controllers/admin/auth.controller";
 
-const router = express.Router();
+const authRouter = express.Router();
 
-router.get('/login', (req, res) => {
-    AuthController.showFormLogin(req, res);
-})
-
-router.post('/login', authMiddle.authenticate('local', {
+authRouter.get('/login', AuthController.getFormLogin);
+authRouter.post('/login', passport.authenticate('local', {
     successRedirect: '/admin/books',
     failureRedirect: '/auth/login'
 }));
+export default authRouter;
 
-export default router;

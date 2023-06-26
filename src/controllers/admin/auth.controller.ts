@@ -1,8 +1,8 @@
-import passport from "passport";
-import LocalStrategy from "passport-local"
-
-export class AuthController {
-    static showFormLogin(req: any, res: any) {
-        res.render('admin/login')
+class AuthController {
+    static getFormLogin(req: any, res: any): any {
+        res.render('admin/auth/login')
     }
 }
+
+export default AuthController;
+
