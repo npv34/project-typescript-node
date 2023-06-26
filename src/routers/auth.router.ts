@@ -10,3 +10,4 @@ authRouter.post('/login', passport.authenticate('local', {
     failureRedirect: '/auth/login'
 }));
 export default authRouter;
+

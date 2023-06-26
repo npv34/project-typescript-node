@@ -1,27 +1,23 @@
 import express from "express";
 import {BookController} from "../controllers/admin/book.controller";
-import {resolveObjectURL} from "buffer";
 
 const router = express.Router();
 
-router.get('/books', (req, res) => {
+router.get('/books', (req, res, next) => {
     BookController.index(req, res).catch(err => {
-        // tslint:disable-next-line:no-console
-        console.log( `error list  books `);
+        next(err)
     })
 })
 
-router.get('/books/create', (req, res) => {
+router.get('/books/create', (req, res, next) => {
     BookController.showFormCreate(req, res).catch(err => {
-        // tslint:disable-next-line:no-console
-        console.log( `error form create  books `);
+         next(err)
     })
 })
 
-router.post('/books/create', (req, res) => {
+router.post('/books/create', (req, res, next) => {
     BookController.create(req, res).catch(err => {
-        // tslint:disable-next-line:no-console
-        console.log( `error create  books ${err.message}` );
+        next(err)
     })
 })
 

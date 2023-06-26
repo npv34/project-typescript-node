@@ -2,30 +2,39 @@ import express from "express";
 import path from "path";
 import multer from "multer";
 import adminRouter from "./routers/admin.router";
+import apiRouter from "./routers/api.router";
 import {ConnectDB} from "./models/ConnectDB";
 import bodyParser from "body-parser";
 import session from "express-session";
+import passport from "passport";
+import * as dotenv from "dotenv";
+import * as AuthCheck from "./middleware/auth.check";
+import cors from "cors";
+import * as process from "process";
 import authRouter from "./routers/auth.router";
-import passport from "./middlewares/auth.middleware";
-
+dotenv.config();
 const db = new ConnectDB();
-db.connect().then(r => {
+db.connect().then(() => {
     // tslint:disable-next-line:no-console
-    console.log( `connect database successfully` );
-}).catch(err => {
+    console.log('connect db success')
+}).catch((err) => {
     // tslint:disable-next-line:no-console
-    console.log( `connect database error` );
+    console.log(err.message)
 })
 
 const upload = multer({ dest: __dirname + '/public/uploads/' })
 
 const app = express();
-const port = 8080; // default port to listen
+app.use(cors())
 
+const port = process.env.PORT || 8081; // default port to listen
+
+// set views
 app.set( "views", path.join( __dirname, "views" ) );
 app.set( "view engine", "ejs" );
 app.use(express.static( path.join( __dirname, "public")))
 
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true}))
 app.use(bodyParser.json());
 
@@ -33,13 +42,22 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: false }
 }))
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.authenticate('session'));
 
-app.use('/auth', authRouter);
-app.use('/admin', adminRouter)
+// router
+app.use('/api', apiRouter)
+
+app.use('/auth', authRouter)
+
+app.use('/admin', AuthCheck.checkLogin,  adminRouter)
+
+// xu ly tat ca request khong co router
+app.use((req, res) => {
+    res.status(404).send('Page Not Found')
+})
 
 // start the Express server
 app.listen( port, () => {

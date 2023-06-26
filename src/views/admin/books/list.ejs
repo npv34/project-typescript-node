@@ -13,20 +13,25 @@
 <body>
 <div class="container">
     <%- include('../layouts/navbar') %>
-
-    <div class="card">
+    <div class="card mt-2">
         <div class="card-header">
             Quản lý sách <a href="/admin/books/create" class="btn btn-success">Thêm mới</a>
         </div>
         <div class="card-body">
-            Co <%= data.length %> sach
+            <div class="row">
+                <div class="col-12 col-md-10"></div>
+                <div class="col-12 col-md-2">
+                    Số lượng sách: <%= data.length %>
+                </div>
+            </div>
+
             <table class="table table-striped">
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Tên</th>
                     <th scope="col">Mô tả</th>
-                    <th scope="col">Category</th>
+                    <th scope="col">Thể loại</th>
                     <th scope="col">Giá</th>
                     <th scope="col">Tác giả</th>
                     <th scope="col"></th>
@@ -38,7 +43,7 @@
                     <th scope="row"><%= index + 1%></th>
                     <td><%= book.name%></td>
                     <td><%= book.description%></td>
-                    <td><a href="/admin/books?category=<%= (book.category) ? book.category._id : null%>"><%= (book.category) ? book.category.name : 'Chua phan loai'%></a></td>
+                    <td><a href="/admin/books?category=<%= (book.category) ? book.category._id : null%>"><%= (book.category) ? book.category.name : 'Chưa phân loại'%></a></td>
                     <td><%= book.price%></td>
                     <td><%= book.author%></td>
                     <td>
@@ -52,6 +57,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
